@@ -389,13 +389,13 @@ const Login = () => {
               pwd,
               (success: boolean) => {
                 if (success) {
-                  navigation.replace('HomeTab');
+                  navigation.replace('MainTab');
                 } else {
                   ToastAndroid.show('登录失败', ToastAndroid.LONG);
                 }
               },
             );
-            // navigation.replace('HomeTab');
+            // navigation.replace('MainTab');
             // }
           }}>
           <Text style={styles.loginTxt}>登录</Text>

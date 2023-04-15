@@ -1,7 +1,7 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 
-const HomeTab = () => {
+const Shop = () => {
   return (
     <View style={styles.root}>
       <Text
@@ -9,7 +9,7 @@ const HomeTab = () => {
           fontSize: 40,
           fontWeight: 'bold',
         }}>
-        HomeTab
+        Shop
       </Text>
     </View>
   );
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeTab;
+export default Shop;

@@ -16,7 +16,7 @@ const Welcome = () => {
   };
 
   const startHome = () => {
-    navigation.replace('HomeTab');
+    navigation.replace('MainTab');
   };
 
   useEffect(() => {
