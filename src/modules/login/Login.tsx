@@ -24,7 +24,8 @@ import icon_exchange from '../../assets/icon_exchange.png';
 import icon_wx from '../../assets/icon_wx.png';
 import icon_qq from '../../assets/icon_qq.webp';
 import icon_close_modal from '../../assets/icon_close_modal.png';
-import {formatPhone, replaceBlank} from '../../utils/StringUtil';
+import {formatPhone} from '../../utils/StringUtil';
+import {get, request} from '../../utils/request';
 
 // type Props = {};
 
@@ -40,7 +41,7 @@ const Login = () => {
   const [pwd, setPwd] = useState<string>('');
 
   // 当前是否可以登录
-  const canLogin = phone?.length === 13 && pwd?.length >= 6 && check;
+  const canLogin = phone?.length === 13 && pwd?.length >= 6;
 
   const handleSelect = () => {
     setCheck(!check);
@@ -371,14 +372,18 @@ const Login = () => {
           activeOpacity={canLogin ? 0.7 : 1}>
           <Text
             style={styles.loginTxt}
-            onPress={() => {
-              if (!canLogin) {
+            onPress={async () => {
+              console.log('点');
+              if (!canLogin || !check) {
                 return;
               }
-              const purePhone = replaceBlank(phone);
-              console.log('purePhone', purePhone);
-              // if (purePhone.length !== 11) {
-              navigation.replace('HomeTab');
+              // const purePhone = replaceBlank(phone);
+              const {data} = await request('login', {
+                name: 'dagongjue',
+                pwd: '123456',
+              });
+              console.log('res', data);
+              // navigation.replace('HomeTab');
               // }
             }}>
             登录
