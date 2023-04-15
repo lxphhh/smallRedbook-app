@@ -26,7 +26,6 @@ import icon_wx from '../../assets/icon_wx.png';
 import icon_qq from '../../assets/icon_qq.webp';
 import icon_close_modal from '../../assets/icon_close_modal.png';
 import {formatPhone, replaceBlank} from '../../utils/StringUtil';
-import {request} from '../../utils/request';
 import UserStore from '../../stores/UserStore';
 
 // type Props = {};

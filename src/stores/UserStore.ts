@@ -3,7 +3,7 @@ import {request} from '../utils/request';
 import {save, remove} from '../utils/Storage';
 
 class UserStore {
-  userInfo: any = {};
+  @observable userInfo: any = {};
 
   requestLogin = flow(function* (
     this: UserStore,
@@ -34,10 +34,10 @@ class UserStore {
     } finally {
     }
   });
-  // @action
-  // setUserInfo = (info: any) => {
-  //   this.userInfo = info;
-  // };
+  @action
+  setUserInfo = (info: any) => {
+    this.userInfo = info;
+  };
 }
 
 export default new UserStore();
