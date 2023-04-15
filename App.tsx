@@ -13,6 +13,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {TransitionPresets, createStackNavigator} from '@react-navigation/stack';
 import Welcome from './src/modules/welcome/Welcome';
 import Login from './src/modules/login/Login';
+import HomeTab from './src/modules/home/HomeTab';
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,14 @@ function App(): JSX.Element {
           <Stack.Screen
             name="Login"
             component={Login}
+            options={{
+              headerShown: false, // 不展示页头
+              ...TransitionPresets.SlideFromRightIOS,
+            }}
+          />
+          <Stack.Screen
+            name="HomeTab"
+            component={HomeTab}
             options={{
               headerShown: false, // 不展示页头
               ...TransitionPresets.SlideFromRightIOS,

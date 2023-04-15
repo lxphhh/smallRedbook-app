@@ -9,6 +9,9 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+
 import icon_logo_main from '../../assets/icon_main_logo.png';
 import icon_unselected from '../../assets/icon_unselected.png';
 import icon_selected from '../../assets/icon_selected.png';
@@ -21,10 +24,12 @@ import icon_exchange from '../../assets/icon_exchange.png';
 import icon_wx from '../../assets/icon_wx.png';
 import icon_qq from '../../assets/icon_qq.webp';
 import icon_close_modal from '../../assets/icon_close_modal.png';
+import {formatPhone, replaceBlank} from '../../utils/StringUtil';
 
 // type Props = {};
 
 const Login = () => {
+  const navigation = useNavigation<StackNavigationProp<any>>();
   const [loginType, setLoginType] = useState<'quick' | 'input'>('quick');
   // 同意协议
   const [check, setCheck] = useState<boolean>(false);
@@ -33,6 +38,9 @@ const Login = () => {
   // value
   const [phone, setPhone] = useState<string>('');
   const [pwd, setPwd] = useState<string>('');
+
+  // 当前是否可以登录
+  const canLogin = phone?.length === 13 && pwd?.length >= 6 && check;
 
   const handleSelect = () => {
     setCheck(!check);
@@ -264,6 +272,15 @@ const Login = () => {
         alignItems: 'center',
         marginTop: 20,
       },
+      loginButtonDisable: {
+        width: '100%',
+        height: 56,
+        backgroundColor: '#DDDDDD',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 28,
+        marginTop: 20,
+      },
       loginTxt: {
         fontSize: 20,
         color: 'white',
@@ -312,7 +329,7 @@ const Login = () => {
             keyboardType="number-pad"
             value={phone}
             onChangeText={(text: string) => {
-              setPhone(text);
+              setPhone(formatPhone(text));
             }}
           />
         </View>
@@ -349,8 +366,23 @@ const Login = () => {
         {/* 账号输入结束 */}
 
         {/* 登录按钮 */}
-        <TouchableOpacity style={styles.loginButton} activeOpacity={0.7}>
-          <Text style={styles.loginTxt}>登录</Text>
+        <TouchableOpacity
+          style={canLogin ? styles.loginButton : styles.loginButtonDisable}
+          activeOpacity={canLogin ? 0.7 : 1}>
+          <Text
+            style={styles.loginTxt}
+            onPress={() => {
+              if (!canLogin) {
+                return;
+              }
+              const purePhone = replaceBlank(phone);
+              console.log('purePhone', purePhone);
+              // if (purePhone.length !== 11) {
+              navigation.replace('HomeTab');
+              // }
+            }}>
+            登录
+          </Text>
         </TouchableOpacity>
 
         {/* 协议 */}
