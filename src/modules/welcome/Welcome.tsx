@@ -3,6 +3,7 @@ import React, {useEffect} from 'react';
 import logo_main_png from '../../assets/icon_main_logo.png';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {load} from '../../utils/Storage';
 
 // type Props = {};
 
@@ -10,16 +11,35 @@ const WELCOME_TIME = 3000;
 
 const Welcome = () => {
   const navigation = useNavigation<StackNavigationProp<any>>();
-  const goToLogin = () => {
+  const startLogin = () => {
     navigation.replace('Login');
+  };
+
+  const startHome = () => {
+    navigation.replace('HomeTab');
   };
 
   useEffect(() => {
     setTimeout(() => {
-      goToLogin();
+      getUserInfo();
     }, WELCOME_TIME);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const getUserInfo = async () => {
+    const cacheUserInfo = await load('userInfo');
+    if (!cacheUserInfo) {
+      startLogin();
+    } else {
+      const parse = JSON.parse(cacheUserInfo);
+      if (parse) {
+        // UserStore.setUserInfo(parse);
+        startHome();
+      } else {
+        startLogin();
+      }
+    }
+  };
 
   return (
     <View style={styles.root}>

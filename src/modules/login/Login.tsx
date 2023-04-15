@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
   LayoutAnimation,
+  ToastAndroid,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -24,8 +25,9 @@ import icon_exchange from '../../assets/icon_exchange.png';
 import icon_wx from '../../assets/icon_wx.png';
 import icon_qq from '../../assets/icon_qq.webp';
 import icon_close_modal from '../../assets/icon_close_modal.png';
-import {formatPhone} from '../../utils/StringUtil';
-import {get, request} from '../../utils/request';
+import {formatPhone, replaceBlank} from '../../utils/StringUtil';
+import {request} from '../../utils/request';
+import UserStore from '../../stores/UserStore';
 
 // type Props = {};
 
@@ -369,25 +371,34 @@ const Login = () => {
         {/* 登录按钮 */}
         <TouchableOpacity
           style={canLogin ? styles.loginButton : styles.loginButtonDisable}
-          activeOpacity={canLogin ? 0.7 : 1}>
-          <Text
-            style={styles.loginTxt}
-            onPress={async () => {
-              console.log('点');
-              if (!canLogin || !check) {
-                return;
-              }
-              // const purePhone = replaceBlank(phone);
-              const {data} = await request('login', {
-                name: 'dagongjue',
-                pwd: '123456',
-              });
-              console.log('res', data);
-              // navigation.replace('HomeTab');
-              // }
-            }}>
-            登录
-          </Text>
+          activeOpacity={canLogin ? 0.7 : 1}
+          onPress={async () => {
+            console.log('点');
+            if (!canLogin || !check) {
+              return;
+            }
+            // // const purePhone = replaceBlank(phone);
+            // const {data} = await request('login', {
+            //   name: 'dagongjue',
+            //   pwd: '123456',
+            // });
+            // console.log('res', data);
+            // 18751609896
+            UserStore.requestLogin(
+              replaceBlank(phone),
+              pwd,
+              (success: boolean) => {
+                if (success) {
+                  navigation.replace('HomeTab');
+                } else {
+                  ToastAndroid.show('登录失败', ToastAndroid.LONG);
+                }
+              },
+            );
+            // navigation.replace('HomeTab');
+            // }
+          }}>
+          <Text style={styles.loginTxt}>登录</Text>
         </TouchableOpacity>
 
         {/* 协议 */}
