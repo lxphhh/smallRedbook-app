@@ -4,6 +4,7 @@ declare module '*.jpg';
 declare module '*.jpeg';
 declare module '*.webp';
 declare module '*.json';
+declare module '*.js';
 
 declare interface console {
   log: any;

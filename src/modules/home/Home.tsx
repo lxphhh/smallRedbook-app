@@ -1,17 +1,13 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Dimensions,
-  Image,
-} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
 import React, {useEffect} from 'react';
 import {observer, useLocalStore} from 'mobx-react';
 import HomeStore from '../../stores/HomeStore';
+//@ts-ignore
+import FlowList from '../../components/flowlist/FlowList';
 
 // import icon_heart from '../../assets/icon_heart.png';
 import icon_heart_empty from '../../assets/icon_heart_empty.png';
+import ResizeImage from '../../components/resizeImage/ResizeImage';
 
 // 获取屏幕的宽度信息
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -20,7 +16,7 @@ const renderItem = ({item, index}: {item: ArticleSimple; index: number}) => {
   return (
     <View style={styles.item} key={index}>
       {/* 图片展示 */}
-      <Image style={styles.itemImage} source={{uri: item.image}} />
+      <ResizeImage uri={item.image} />
       <Text style={styles.titleTxt}>{item.title}</Text>
       {/* 头像名称点赞数目 */}
       <View style={styles.nameLayout}>
@@ -72,7 +68,7 @@ const Home = () => {
 
   return (
     <View style={styles.root}>
-      <FlatList
+      <FlowList
         contentContainerStyle={styles.contentContainer}
         style={styles.flatList}
         data={store.homeList}
