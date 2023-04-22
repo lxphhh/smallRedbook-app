@@ -66,6 +66,7 @@ const RedBookTabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
           <TouchableOpacity
             key={label}
             style={styles.tabItem}
+            activeOpacity={0.7}
             onPress={() => {
               navigation.navigate(route.name);
             }}>
