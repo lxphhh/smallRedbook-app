@@ -4,9 +4,9 @@ import {observer, useLocalStore} from 'mobx-react';
 import HomeStore from '../../stores/HomeStore';
 //@ts-ignore
 import FlowList from '../../components/flowlist/FlowList';
-
-import ResizeImage from '../../components/resizeImage/ResizeImage';
 import Heart from '../../components/heart/Heart';
+import ResizeImage from '../../components/resizeImage/ResizeImage';
+import TitleBar from './components/TitleBar';
 
 // 获取屏幕的宽度信息
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -72,6 +72,12 @@ const Home = () => {
 
   return (
     <View style={styles.root}>
+      <TitleBar
+        tab={1}
+        onTabChange={(tab: number) => {
+          console.log(tab);
+        }}
+      />
       <FlowList
         contentContainerStyle={styles.contentContainer}
         style={styles.flatList}
