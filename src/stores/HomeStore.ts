@@ -1,5 +1,7 @@
 import {action, observable} from 'mobx';
 import {request} from '../utils/request';
+import {load} from '../utils/Storage';
+import {DEFAULT_CATEGORY_LIST} from '../utils/default';
 
 const SIZE = 10;
 
@@ -11,6 +13,9 @@ class HomeStore {
 
   // 是否正在请求数据
   @observable refreshing: boolean = false;
+
+  // 频道数据
+  @observable categoryList: Category[] = [];
 
   @action
   resetPage = () => {
@@ -52,6 +57,21 @@ class HomeStore {
       console.log(error);
     } finally {
       this.refreshing = false;
+    }
+  };
+
+  getCategoryList = async () => {
+    const cacheListStr = await load('categoryList');
+    if (cacheListStr) {
+      const cacheList = JSON.parse(cacheListStr);
+      // 如果缓存有的话，就用缓存的
+      if (cacheList.length) {
+        this.categoryList = cacheList;
+      } else {
+        this.categoryList = DEFAULT_CATEGORY_LIST;
+      }
+    } else {
+      this.categoryList = DEFAULT_CATEGORY_LIST;
     }
   };
 }

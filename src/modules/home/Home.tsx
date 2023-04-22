@@ -1,4 +1,12 @@
-import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useEffect} from 'react';
 import {observer, useLocalStore} from 'mobx-react';
 import HomeStore from '../../stores/HomeStore';
@@ -7,6 +15,7 @@ import FlowList from '../../components/flowlist/FlowList';
 import Heart from '../../components/heart/Heart';
 import ResizeImage from '../../components/resizeImage/ResizeImage';
 import TitleBar from './components/TitleBar';
+import CategoryList from './components/CategoryList';
 
 // 获取屏幕的宽度信息
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -55,6 +64,7 @@ const Home = () => {
 
   useEffect(() => {
     store.requestHomeList();
+    store.getCategoryList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -70,6 +80,8 @@ const Home = () => {
     store.requestHomeList();
   };
 
+  const categoryList = store.categoryList.filter(item => item.isAdd);
+
   return (
     <View style={styles.root}>
       <TitleBar
@@ -82,6 +94,7 @@ const Home = () => {
         contentContainerStyle={styles.contentContainer}
         style={styles.flatList}
         data={store.homeList}
+        keyExtractor={(item: ArticleSimple) => `${item.id}`}
         extraData={[store.homeList, store.refreshing]}
         numColumns={2}
         renderItem={renderItem}
@@ -93,6 +106,14 @@ const Home = () => {
         // 底部没有更多数据
         ListFooterComponent={<Footer refresh={store.refreshing} />}
         // 头
+        ListHeaderComponent={
+          <CategoryList
+            categoryList={categoryList}
+            onCategoryChange={category => {
+              console.log(category);
+            }}
+          />
+        }
       />
     </View>
   );
@@ -111,7 +132,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   contentContainer: {
-    paddingTop: 6,
+    // paddingTop: 6,
   },
   item: {
     width: (SCREEN_WIDTH - 18) / 2,
