@@ -5,9 +5,8 @@ import HomeStore from '../../stores/HomeStore';
 //@ts-ignore
 import FlowList from '../../components/flowlist/FlowList';
 
-// import icon_heart from '../../assets/icon_heart.png';
-import icon_heart_empty from '../../assets/icon_heart_empty.png';
 import ResizeImage from '../../components/resizeImage/ResizeImage';
+import Heart from '../../components/heart/Heart';
 
 // 获取屏幕的宽度信息
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -22,14 +21,19 @@ const renderItem = ({item, index}: {item: ArticleSimple; index: number}) => {
       <View style={styles.nameLayout}>
         <Image style={styles.avatarImg} source={{uri: item.avatarUrl}} />
         <Text style={styles.nameTxt}>{item.userName}</Text>
-        <Image style={styles.heart} source={icon_heart_empty} />
+        <Heart
+          isFavorite={item.isFavorite}
+          onChange={(values: boolean) => {
+            console.log(values);
+          }}
+        />
         <Text style={styles.countTxt}>{item.favoriteCount}</Text>
       </View>
     </View>
   );
 };
 
-const Footer = () => {
+const Footer = ({refresh}: {refresh: boolean}) => {
   const styleFooter = StyleSheet.create({
     footer: {
       height: 60,
@@ -41,7 +45,7 @@ const Footer = () => {
   });
   return (
     <View style={styleFooter.footer}>
-      <Text>没有更多数据了~</Text>
+      {!refresh ? <Text>没有更多数据了~</Text> : <Text>获取数据中~</Text>}
     </View>
   );
 };
@@ -81,7 +85,8 @@ const Home = () => {
         onEndReachedThreshold={0.1}
         onEndReached={loadMoreData}
         // 底部没有更多数据
-        ListFooterComponent={<Footer />}
+        ListFooterComponent={<Footer refresh={store.refreshing} />}
+        // 头
       />
     </View>
   );
@@ -140,11 +145,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#999999',
     marginLeft: 6,
-  },
-  heart: {
-    width: 20,
-    height: 20,
-    resizeMode: 'contain',
   },
   countTxt: {
     fontSize: 14,
