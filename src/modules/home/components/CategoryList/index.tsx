@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import icon_arrow from '../../../../assets/icon_arrow.png';
+import CategoryModal, {CategoryModalRef} from '../CategoryModal';
 
 type Props = {
   categoryList: Category[];
@@ -16,8 +17,15 @@ type Props = {
   onCategoryChange?: (category: Category) => void;
 };
 
-const CategoryList = ({categoryList, onCategoryChange}: Props) => {
+const CategoryList = ({
+  categoryList,
+  allCategoryList,
+  onCategoryChange,
+}: Props) => {
   const [category, setCategory] = useState<Category>();
+
+  const categoryRef = useRef<CategoryModalRef>(null);
+
   const handleOnPress = (item: Category) => {
     setCategory(item);
     onCategoryChange?.(item);
@@ -49,9 +57,15 @@ const CategoryList = ({categoryList, onCategoryChange}: Props) => {
           );
         })}
       </ScrollView>
-      <TouchableOpacity style={styles.openButton} activeOpacity={0.7}>
+      <TouchableOpacity
+        style={styles.openButton}
+        activeOpacity={0.7}
+        onPress={() => {
+          categoryRef.current?.open();
+        }}>
         <Image style={styles.openImg} source={icon_arrow} />
       </TouchableOpacity>
+      <CategoryModal ref={categoryRef} categoryList={allCategoryList} />
     </View>
   );
 };

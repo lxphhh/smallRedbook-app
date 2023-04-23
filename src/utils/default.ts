@@ -25,10 +25,10 @@ export const DEFAULT_CATEGORY_LIST: Category[] = [
   {name: '运动', default: false, isAdd: true},
   {name: '旅行', default: false, isAdd: true},
 
-  {name: '音乐', default: false, isAdd: true},
-  {name: '护肤', default: false, isAdd: true},
-  {name: '动漫', default: false, isAdd: true},
-  {name: '游戏', default: false, isAdd: true},
+  // {name: '音乐', default: false, isAdd: true},
+  // {name: '护肤', default: false, isAdd: true},
+  // {name: '动漫', default: false, isAdd: true},
+  // {name: '游戏', default: false, isAdd: true},
 
   // 默认添加频道
   {name: '家装', default: false, isAdd: false},
@@ -46,10 +46,10 @@ export const DEFAULT_CATEGORY_LIST: Category[] = [
   {name: '艺术', default: false, isAdd: false},
   {name: '婚姻', default: false, isAdd: false},
 
-  {name: '家居', default: false, isAdd: false},
-  {name: '母婴', default: false, isAdd: false},
-  {name: '绘画', default: false, isAdd: false},
-  {name: '壁纸', default: false, isAdd: false},
+  // {name: '家居', default: false, isAdd: false},
+  // {name: '母婴', default: false, isAdd: false},
+  // {name: '绘画', default: false, isAdd: false},
+  // {name: '壁纸', default: false, isAdd: false},
 
   {name: '头像', default: false, isAdd: false},
 ];

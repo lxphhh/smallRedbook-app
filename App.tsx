@@ -26,6 +26,7 @@ const Console = () => {
       <VConsole
         // 使用 'react-native-config-reader' 库获获取额外信息
         appInfo={{
+          当前环境: ConfigReader.ENV,
           原生构建类型: ConfigReader.BUILD_TYPE,
           原生版本号:
             ConfigReader.VERSION_NAME ||

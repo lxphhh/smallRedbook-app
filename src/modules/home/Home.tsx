@@ -1,12 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
 import React, {useEffect} from 'react';
 import {observer, useLocalStore} from 'mobx-react';
 import HomeStore from '../../stores/HomeStore';
@@ -109,6 +101,7 @@ const Home = () => {
         ListHeaderComponent={
           <CategoryList
             categoryList={categoryList}
+            allCategoryList={store.categoryList}
             onCategoryChange={category => {
               console.log(category);
             }}
