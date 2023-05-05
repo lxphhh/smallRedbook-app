@@ -100,18 +100,18 @@ const MainTab = () => {
           }}
         />
         <BottomTab.Screen
-          name="Publish"
-          component={Shop}
-          options={{
-            title: '发布',
-            headerShown: false,
-          }}
-        />
-        <BottomTab.Screen
           name="Shop"
           component={Shop}
           options={{
             title: '购物',
+            headerShown: false,
+          }}
+        />
+        <BottomTab.Screen
+          name="Publish"
+          component={Shop}
+          options={{
+            title: '发布',
             headerShown: false,
           }}
         />
