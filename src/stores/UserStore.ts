@@ -37,6 +37,7 @@ class UserStore {
       Loading.hide();
     }
   });
+
   @action
   setUserInfo = (info: any) => {
     this.userInfo = info;

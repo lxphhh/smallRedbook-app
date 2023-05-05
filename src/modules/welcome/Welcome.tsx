@@ -4,6 +4,7 @@ import logo_main_png from '../../assets/icon_main_logo.png';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {load} from '../../utils/Storage';
+import UserStore from '../../stores/UserStore';
 
 // type Props = {};
 
@@ -33,7 +34,7 @@ const Welcome = () => {
     } else {
       const parse = JSON.parse(cacheUserInfo);
       if (parse) {
-        // UserStore.setUserInfo(parse);
+        UserStore.setUserInfo(parse);
         startHome();
       } else {
         startLogin();
