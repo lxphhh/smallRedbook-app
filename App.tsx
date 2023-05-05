@@ -14,6 +14,7 @@ import {TransitionPresets, createStackNavigator} from '@react-navigation/stack';
 import Welcome from './src/modules/welcome/Welcome';
 import Login from './src/modules/login/Login';
 import MainTab from './src/modules/mainTab/MainTab';
+import ArticleDetail from './src/modules/articleDetail/ArticleDetail';
 import VConsole from '@grewer/react-native-vconsole';
 import ConfigReader from 'react-native-config-reader';
 
@@ -75,6 +76,14 @@ function App(): JSX.Element {
           <Stack.Screen
             name="MainTab"
             component={MainTab}
+            options={{
+              headerShown: false, // 不展示页头
+              ...TransitionPresets.SlideFromRightIOS,
+            }}
+          />
+          <Stack.Screen
+            name="ArticleDetail"
+            component={ArticleDetail}
             options={{
               headerShown: false, // 不展示页头
               ...TransitionPresets.SlideFromRightIOS,

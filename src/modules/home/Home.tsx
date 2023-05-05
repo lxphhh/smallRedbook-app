@@ -1,5 +1,12 @@
-import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
-import React, {useEffect} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useCallback, useEffect} from 'react';
 import {observer, useLocalStore} from 'mobx-react';
 import HomeStore from '../../stores/HomeStore';
 //@ts-ignore
@@ -8,31 +15,11 @@ import Heart from '../../components/heart/Heart';
 import ResizeImage from '../../components/resizeImage/ResizeImage';
 import TitleBar from './components/TitleBar';
 import CategoryList from './components/CategoryList';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 // 获取屏幕的宽度信息
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
-
-const renderItem = ({item, index}: {item: ArticleSimple; index: number}) => {
-  return (
-    <View style={styles.item} key={index}>
-      {/* 图片展示 */}
-      <ResizeImage uri={item.image} />
-      <Text style={styles.titleTxt}>{item.title}</Text>
-      {/* 头像名称点赞数目 */}
-      <View style={styles.nameLayout}>
-        <Image style={styles.avatarImg} source={{uri: item.avatarUrl}} />
-        <Text style={styles.nameTxt}>{item.userName}</Text>
-        <Heart
-          isFavorite={item.isFavorite}
-          onChange={(values: boolean) => {
-            console.log(values);
-          }}
-        />
-        <Text style={styles.countTxt}>{item.favoriteCount}</Text>
-      </View>
-    </View>
-  );
-};
 
 const Footer = ({refresh}: {refresh: boolean}) => {
   const styleFooter = StyleSheet.create({
@@ -54,6 +41,9 @@ const Footer = ({refresh}: {refresh: boolean}) => {
 const Home = () => {
   const store = useLocalStore(() => new HomeStore());
 
+  // 路由跳转部分
+  const navigation = useNavigation<StackNavigationProp<any>>();
+
   useEffect(() => {
     store.requestHomeList();
     store.getCategoryList();
@@ -72,7 +62,42 @@ const Home = () => {
     store.requestHomeList();
   };
 
+  const onArticlePress = useCallback(
+    (article: ArticleSimple) => () => {
+      navigation.push('ArticleDetail', {
+        id: article?.id,
+      });
+    },
+    [navigation],
+  );
+
   const categoryList = store.categoryList.filter(item => item.isAdd);
+
+  const renderItem = ({item, index}: {item: ArticleSimple; index: number}) => {
+    return (
+      <TouchableOpacity
+        style={styles.item}
+        key={index}
+        activeOpacity={0.9}
+        onPress={onArticlePress(item)}>
+        {/* 图片展示 */}
+        <ResizeImage uri={item.image} />
+        <Text style={styles.titleTxt}>{item.title}</Text>
+        {/* 头像名称点赞数目 */}
+        <View style={styles.nameLayout}>
+          <Image style={styles.avatarImg} source={{uri: item.avatarUrl}} />
+          <Text style={styles.nameTxt}>{item.userName}</Text>
+          <Heart
+            isFavorite={item.isFavorite}
+            onChange={(values: boolean) => {
+              console.log(values);
+            }}
+          />
+          <Text style={styles.countTxt}>{item.favoriteCount}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.root}>
