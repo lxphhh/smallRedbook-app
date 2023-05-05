@@ -1,6 +1,7 @@
 import {action, flow, observable} from 'mobx';
 import {request} from '../utils/request';
 import {save, remove} from '../utils/Storage';
+import Loading from '../components/widget/Loading';
 
 class UserStore {
   @observable userInfo: any = {};
@@ -11,6 +12,7 @@ class UserStore {
     pwd: string,
     callback: (success: boolean) => void,
   ) {
+    Loading.show();
     try {
       const params = {
         name: phone,
@@ -32,6 +34,7 @@ class UserStore {
       remove('userInfo');
       callback?.(false);
     } finally {
+      Loading.hide();
     }
   });
   @action

@@ -2,6 +2,7 @@ import {action, observable} from 'mobx';
 import {request} from '../utils/request';
 import {load} from '../utils/Storage';
 import {DEFAULT_CATEGORY_LIST} from '../utils/default';
+import Loading from '../components/widget/Loading';
 
 const SIZE = 10;
 
@@ -27,6 +28,7 @@ class HomeStore {
     if (this.refreshing) {
       return;
     }
+    Loading.show();
     try {
       // 正在请求数据，防止重复请求
       this.refreshing = true;
@@ -57,6 +59,7 @@ class HomeStore {
       console.log(error);
     } finally {
       this.refreshing = false;
+      Loading.hide();
     }
   };
 

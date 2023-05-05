@@ -7,11 +7,11 @@ import {
   TouchableOpacity,
   TextInput,
   LayoutAnimation,
-  ToastAndroid,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+import Toast from '../../components/widget/Toast';
 
 import icon_logo_main from '../../assets/icon_main_logo.png';
 import icon_unselected from '../../assets/icon_unselected.png';
@@ -390,7 +390,7 @@ const Login = () => {
                 if (success) {
                   navigation.replace('MainTab');
                 } else {
-                  ToastAndroid.show('登录失败', ToastAndroid.LONG);
+                  Toast.show('登录失败');
                 }
               },
             );
