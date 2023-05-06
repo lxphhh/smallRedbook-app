@@ -134,15 +134,15 @@ const ArticleDetail = () => {
   const renderInfo = () => {
     const {articleDetail} = store;
     const tags =
-      articleDetail?.tag?.length &&
+      !!articleDetail?.tag?.length &&
       articleDetail?.tag?.map(item => `# ${item}`).join(' ');
     return (
       <>
         <Text style={styles.articleTitleTxt}>{articleDetail?.title ?? ''}</Text>
         <Text style={styles.articleDescTxt}>{articleDetail?.desc ?? ''}</Text>
-        <Text style={styles.articleTagsTxt}>{tags}</Text>
+        {tags && <Text style={styles.articleTagsTxt}>{tags}</Text>}
         <Text style={styles.timeAndLocation}>
-          {articleDetail?.dateTime ?? ''}
+          {articleDetail?.dateTime ?? ''}&nbsp;
           {articleDetail?.location ?? ''}
         </Text>
         {/* 线 */}
@@ -154,7 +154,7 @@ const ArticleDetail = () => {
   // 评论区
   const renderComment = () => {
     const {articleDetail} = store;
-    const count = articleDetail?.comments?.length ?? 0;
+    const count = !!articleDetail?.comments?.length ?? 0;
     const {userInfo} = UserStore;
 
     const commentStyle = StyleSheet.create({
