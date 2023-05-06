@@ -2,22 +2,19 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
   Image,
   TouchableOpacity,
   TextInput,
   LayoutAnimation,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-
-import icon_search from '../../assets/icon_search.png';
-import icon_arrow from '../../assets/icon_arrow.png';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
-type Props = {};
+import icon_search from '../../assets/icon_search.png';
+import icon_arrow from '../../assets/icon_arrow.png';
 
-const SearchGoods = (props: Props) => {
+const SearchGoods = () => {
   const inputRef = useRef<TextInput>(null);
 
   const [showBack, setShowBack] = useState<boolean>(false);
