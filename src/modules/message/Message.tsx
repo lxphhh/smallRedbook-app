@@ -12,8 +12,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {observer, useLocalStore} from 'mobx-react';
 import MessageStore from '../../stores/MessageStore';
 
-import icon_new_follow from '../../assets/icon_new_follow.png';
-import icon_comments from '../../assets/icon_comments.png';
 import icon_group from '../../assets/icon_group.png';
 import icon_to_top from '../../assets/icon_to_top.png';
 import icon_no_collection from '../../assets/icon_no_collection.webp';
@@ -41,7 +39,57 @@ const Message = () => {
   };
 
   const renderItem = ({item}: {item: MessageListItem}) => {
-    return <View />;
+    const styles = StyleSheet.create({
+      item: {
+        width: '100%',
+        height: 80,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+      },
+      avatarImg: {
+        width: 48,
+        height: 48,
+        borderRadius: 24,
+        resizeMode: 'cover',
+      },
+      containerLayout: {
+        flex: 1,
+        marginHorizontal: 12,
+      },
+      nameTxt: {
+        fontSize: 16,
+        color: '#333',
+        fontWeight: 'bold',
+      },
+      lastMessageTxt: {
+        fontSize: 14,
+        color: '#999',
+        marginTop: 4,
+      },
+
+      rightLayout: {alignItems: 'flex-end'},
+      timeTxt: {fontSize: 12, color: '#999'},
+      iconTop: {
+        width: 8,
+        height: 16,
+        marginTop: 6,
+        resizeMode: 'contain',
+      },
+    });
+    return (
+      <View style={styles.item}>
+        <Image style={styles.avatarImg} source={{uri: item.avatarUrl}} />
+        <View style={styles.containerLayout}>
+          <Text style={styles.nameTxt}>{item.name}</Text>
+          <Text style={styles.lastMessageTxt}>{item.lastMessage}</Text>
+        </View>
+        <View style={styles.rightLayout}>
+          <Text style={styles.timeTxt}>{item.lastMessageTime}</Text>
+          <Image style={styles.iconTop} source={icon_to_top} />
+        </View>
+      </View>
+    );
   };
 
   return (
@@ -53,7 +101,7 @@ const Message = () => {
         extraData={store.unread}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         renderItem={renderItem}
-        ListHeaderComponent={<MessageHeader data={store.unread} />}
+        ListHeaderComponent={<MessageHeader data={store?.unread} />}
       />
     </View>
   );

@@ -4,6 +4,7 @@ import React from 'react';
 import icon_star from '../../../../assets/icon_star.png';
 import icon_new_follow from '../../../../assets/icon_new_follow.png';
 import icon_comments from '../../../../assets/icon_comments.png';
+import UnRead from '../UnRead';
 
 type Props = {
   data: UnRead;
@@ -15,23 +16,21 @@ const MessageHeader = ({data}: Props) => {
       <View style={styles.headerItem}>
         <View>
           <Image style={styles.itemImg} source={icon_star} />
-          {/* {!!unread?.unreadFavorate && (
-            <UnRead count={unread?.unreadFavorate} />
-          )} */}
+          {!!data?.unreadFavorate && <UnRead count={data?.unreadFavorate} />}
         </View>
         <Text style={styles.itemTxt}>赞和收藏</Text>
       </View>
       <View style={styles.headerItem}>
         <View>
           <Image style={styles.itemImg} source={icon_new_follow} />
-          {/* {!!unread?.newFollow && <UnRead count={unread?.newFollow} />} */}
+          {!!data?.newFollow && <UnRead count={data?.newFollow} />}
         </View>
         <Text style={styles.itemTxt}>新增关注</Text>
       </View>
       <View style={styles.headerItem}>
         <View>
           <Image style={styles.itemImg} source={icon_comments} />
-          {/* {!!unread?.comment && <UnRead count={unread?.comment} />} */}
+          {!!data?.comment && <UnRead count={data?.comment} />}
         </View>
         <Text style={styles.itemTxt}>评论和@</Text>
       </View>
