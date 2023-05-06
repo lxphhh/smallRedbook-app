@@ -5,20 +5,22 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
-  TextInput,
-  LayoutAnimation,
+  GestureResponderEvent,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {observer, useLocalStore} from 'mobx-react';
 import MessageStore from '../../stores/MessageStore';
+import MessageHeader from './components/MessageHeader';
+import FloatMenu, {FloatModalRef} from './components/FloatMenu';
 
 import icon_group from '../../assets/icon_group.png';
 import icon_to_top from '../../assets/icon_to_top.png';
 import icon_no_collection from '../../assets/icon_no_collection.webp';
-import MessageHeader from './components/MessageHeader';
 
 const Message = () => {
   const store = useLocalStore(() => new MessageStore());
+
+  const floatMenuRef = useRef<FloatModalRef>(null);
 
   useEffect(() => {
     store.requestMessageList();
@@ -30,10 +32,17 @@ const Message = () => {
     return (
       <View style={styles.titleLayout}>
         <Text style={styles.titleTxt}>消息</Text>
-        <TouchableOpacity style={styles.groupButton} activeOpacity={0.7}>
+        <TouchableOpacity
+          style={styles.groupButton}
+          activeOpacity={0.7}
+          onPress={(event: GestureResponderEvent) => {
+            const {pageY} = event.nativeEvent;
+            floatMenuRef.current?.open(pageY + 48);
+          }}>
           <Image style={styles.iconGroup} source={icon_group} />
           <Text style={styles.groupTxt}>群聊</Text>
         </TouchableOpacity>
+        <FloatMenu ref={floatMenuRef} />
       </View>
     );
   };
@@ -126,6 +135,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   groupButton: {
+    height: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     position: 'absolute',
