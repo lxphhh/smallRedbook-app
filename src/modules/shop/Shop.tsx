@@ -15,6 +15,7 @@ import icon_shop_car from '../../assets/icon_shop_car.png';
 import icon_orders from '../../assets/icon_orders.png';
 import icon_menu_more from '../../assets/icon_menu_more.png';
 import {FlatList} from 'react-native-gesture-handler';
+import ListHeaderComponent from './ListHeader';
 
 // 获取屏幕的宽度信息
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -128,6 +129,7 @@ const Shop = () => {
         keyExtractor={(i, index) => `${i.id}-${index}`}
         numColumns={2}
         refreshing={store.refreshing}
+        ListHeaderComponent={<ListHeaderComponent data={store.categoryList} />}
       />
     </View>
   );
