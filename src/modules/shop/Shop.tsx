@@ -16,6 +16,8 @@ import icon_orders from '../../assets/icon_orders.png';
 import icon_menu_more from '../../assets/icon_menu_more.png';
 import {FlatList} from 'react-native-gesture-handler';
 import ListHeaderComponent from './ListHeader';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/native';
 
 // 获取屏幕的宽度信息
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -23,6 +25,8 @@ const ITEM_WIDTH = (SCREEN_WIDTH - 18) / 2;
 
 const Shop = () => {
   const store = useLocalStore(() => new ShopStore());
+  // 路由跳转部分
+  const navigation = useNavigation<StackNavigationProp<any>>();
 
   useEffect(() => {
     store.requestGoodsList();
@@ -30,14 +34,22 @@ const Shop = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 搜索
+  const onSearchPress = () => {
+    navigation.push('SearchGoods');
+  };
+
   // 顶部
   const renderTitle = () => {
     return (
       <View style={styles.titleLayout}>
-        <View style={styles.searchLayout}>
+        <TouchableOpacity
+          style={styles.searchLayout}
+          activeOpacity={0.8}
+          onPress={onSearchPress}>
           <Image style={styles.searchIcon} source={icon_search} />
           <Text style={styles.searchTxt}>bm调度</Text>
-        </View>
+        </TouchableOpacity>
         <Image style={styles.menuIcon} source={icon_shop_car} />
         <Image style={styles.menuIcon} source={icon_orders} />
         <Image style={styles.menuIcon} source={icon_menu_more} />
@@ -46,7 +58,7 @@ const Shop = () => {
   };
 
   // 商品列表
-  const renderItem = ({item, index}: {item: GoodsSimple; index: number}) => {
+  const renderItem = ({item}: {item: GoodsSimple}) => {
     const styleItem = StyleSheet.create({
       item: {
         width: ITEM_WIDTH,

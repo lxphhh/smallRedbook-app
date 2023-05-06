@@ -17,6 +17,7 @@ import MainTab from './src/modules/mainTab/MainTab';
 import ArticleDetail from './src/modules/articleDetail/ArticleDetail';
 import VConsole from '@grewer/react-native-vconsole';
 import ConfigReader from 'react-native-config-reader';
+import SearchGoods from './src/modules/searchGoods/SearchGoods';
 
 const Stack = createStackNavigator();
 
@@ -81,12 +82,21 @@ function App(): JSX.Element {
               ...TransitionPresets.SlideFromRightIOS,
             }}
           />
+          {/* 文章详情页面 */}
           <Stack.Screen
             name="ArticleDetail"
             component={ArticleDetail}
             options={{
               headerShown: false, // 不展示页头
               ...TransitionPresets.SlideFromRightIOS,
+            }}
+          />
+          <Stack.Screen
+            name="SearchGoods"
+            component={SearchGoods}
+            options={{
+              headerShown: false, // 不展示页头
+              presentation: 'transparentModal',
             }}
           />
         </Stack.Navigator>
