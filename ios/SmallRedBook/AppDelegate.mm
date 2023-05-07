@@ -2,6 +2,8 @@
 
 #import <React/RCTBundleURLProvider.h>
 
+#import "RCTPushy.h"  // <-- import头文件，注意要放到if条件外面
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -19,7 +21,9 @@
 #if DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
 #else
-  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  // return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+   // 把这里非DEBUG的情况替换为热更新bundle的写法
+  return [RCTPushy bundleURL];
 #endif
 }
 

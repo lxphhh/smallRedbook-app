@@ -10,6 +10,9 @@ import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
 import java.util.List;
 
+// 热更新
+import cn.reactnative.modules.update.UpdateContext;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -17,6 +20,12 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         public boolean getUseDeveloperSupport() {
           return BuildConfig.DEBUG;
+        }
+
+        // ↓↓↓将下面这一段添加到 DefaultReactNativeHost 内部！
+        @Override
+        protected String getJSBundleFile() {
+            return UpdateContext.getBundleUrl(MainApplication.this);
         }
 
         @Override

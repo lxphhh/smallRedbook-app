@@ -5917,7 +5917,7 @@ mumath@^3.3.4:
   dependencies:
     almost-equal "^1.1.0"
 
-nanoid@^3.1.23:
+nanoid@^3.1.23, nanoid@^3.3.3:
   version "3.3.6"
   resolved "https://registry.npmmirror.com/nanoid/-/nanoid-3.3.6.tgz#443380c856d6e9f9824267d960b4236ad583ea4c"
   integrity sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==
@@ -6602,6 +6602,13 @@ react-native-screens@^3.20.0:
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
+
+react-native-update@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.npmmirror.com/react-native-update/-/react-native-update-8.1.0.tgz#a4a81278b69dceae5234c070bc4b5fe6a322f156"
+  integrity sha512-rkMYrrdauju4pTMkmx0voJoHu/uuPkg5q7Bw2faMaUW+jy+yW3aljjekGXZf/EvVKabOMdxSSmYU3uAWvPEyKA==
+  dependencies:
+    nanoid "^3.3.3"
 
 react-native@0.71.6:
   version "0.71.6"
