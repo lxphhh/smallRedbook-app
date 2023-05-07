@@ -137,8 +137,8 @@ const Mine = () => {
       },
       nameTxt: {
         fontSize: 22,
-        color: 'white',
-        fontWeight: 'bold',
+        color: 'red',
+        // fontWeight: 'bold',
       },
       nameLayout: {
         marginLeft: 20,
