@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   LayoutChangeEvent,
   Dimensions,
+  RefreshControl,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {observer, useLocalStore} from 'mobx-react';
 import UserStore from '../../stores/UserStore';
 import MineStore from '../../stores/MineStore';
@@ -19,7 +20,7 @@ import icon_mine_bg from '../../assets/icon_mine_bg.png';
 import icon_menu from '../../assets/icon_menu.png';
 import icon_shop_car from '../../assets/icon_shop_car.png';
 import icon_share from '../../assets/icon_share.png';
-import icon_location_info from '../../assets/icon_location_info.png';
+// import icon_location_info from '../../assets/icon_location_info.png';
 import icon_qrcode from '../../assets/icon_qrcode.png';
 import icon_add from '../../assets/icon_add.png';
 import icon_male from '../../assets/icon_male.png';
@@ -31,6 +32,7 @@ import icon_no_favorate from '../../assets/icon_no_favorate.webp';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import Heart from '../../components/heart/Heart';
+import SideMenu, {SideModalRef} from './components/SideMenu';
 
 const EMPTY_CONFIG = [
   {icon: icon_no_note, tips: '快去发布今日的好心情吧～'},
@@ -50,6 +52,9 @@ const Mine = () => {
   const [bgImgHeight, setBgImgHeight] = useState<number>(400);
 
   const {userInfo} = UserStore;
+
+  // 侧边ref
+  const slideMenuRef = useRef<SideModalRef>(null);
 
   useEffect(() => {
     store.requestAll();
@@ -91,7 +96,12 @@ const Mine = () => {
     });
     return (
       <View style={styles.titleLayout}>
-        <TouchableOpacity style={styles.menuButton} activeOpacity={0.7}>
+        <TouchableOpacity
+          style={styles.menuButton}
+          activeOpacity={0.7}
+          onPress={() => {
+            slideMenuRef.current?.open();
+          }}>
           <Image source={icon_menu} style={styles.menuIcon} />
         </TouchableOpacity>
         <View style={{flex: 1}} />
@@ -465,11 +475,27 @@ const Mine = () => {
         ]}
       />
       {renderTitle()}
-      <ScrollView style={styles.scrollView}>
+      <ScrollView
+        style={styles.scrollView}
+        refreshControl={
+          <RefreshControl
+            refreshing={store.refreshing}
+            onRefresh={() => {
+              if (tabIndex === 0) {
+                store.requestNoteList();
+              } else if (tabIndex === 1) {
+                store.requestCollectionList();
+              } else if (tabIndex === 2) {
+                store.requestFavorateList();
+              }
+            }}
+          />
+        }>
         {renderInfo()}
         {renderTabs()}
         {renderList()}
       </ScrollView>
+      <SideMenu ref={slideMenuRef} />
     </View>
   );
 };
