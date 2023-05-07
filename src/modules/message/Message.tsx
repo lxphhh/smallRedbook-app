@@ -7,7 +7,7 @@ import {
   FlatList,
   GestureResponderEvent,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {observer, useLocalStore} from 'mobx-react';
 import MessageStore from '../../stores/MessageStore';
 import MessageHeader from './components/MessageHeader';
@@ -15,6 +15,7 @@ import FloatMenu, {FloatModalRef} from './components/FloatMenu';
 
 import icon_group from '../../assets/icon_group.png';
 import icon_to_top from '../../assets/icon_to_top.png';
+import Empty from '../../components/empty/Empty';
 import icon_no_collection from '../../assets/icon_no_collection.webp';
 
 const Message = () => {
@@ -111,6 +112,9 @@ const Message = () => {
         keyExtractor={(item, index) => `${item.id}-${index}`}
         renderItem={renderItem}
         ListHeaderComponent={<MessageHeader data={store?.unread} />}
+        ListEmptyComponent={
+          <Empty icon={icon_no_collection} tips={'暂无消息'} />
+        }
       />
     </View>
   );

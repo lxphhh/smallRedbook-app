@@ -19,10 +19,15 @@ export default class MineStore {
       this.requestCollectionList(),
       this.requestFavorateList(),
       this.requestInfo(),
-    ]).then(() => {
-      Loading.hide();
-      this.refreshing = false;
-    });
+    ])
+      .then(() => {
+        Loading.hide();
+        this.refreshing = false;
+      })
+      .finally(() => {
+        Loading.hide();
+        this.refreshing = false;
+      });
   };
 
   @action

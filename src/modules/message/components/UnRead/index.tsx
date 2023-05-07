@@ -1,4 +1,4 @@
-import {Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet, View} from 'react-native';
 import React from 'react';
 
 type Props = {
@@ -6,7 +6,11 @@ type Props = {
 };
 
 const UnRead = ({count}: Props) => {
-  return <Text style={styles.unReadTxt}>{count > 99 ? '99+' : count}</Text>;
+  return (
+    <View style={styles.unReadTxt}>
+      <Text style={styles.countTxt}>{count > 99 ? '99+' : count}</Text>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -18,8 +22,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     borderRadius: 12,
     backgroundColor: '#FF2442',
-    textAlign: 'center',
-    textAlignVertical: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  countTxt: {
     fontSize: 12,
     color: '#fff',
   },
