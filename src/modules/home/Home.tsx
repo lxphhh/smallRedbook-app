@@ -5,6 +5,7 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import React, {useCallback, useEffect} from 'react';
 import {observer, useLocalStore} from 'mobx-react';
@@ -17,6 +18,21 @@ import TitleBar from './components/TitleBar';
 import CategoryList from './components/CategoryList';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
+
+import _updateConfig from '../../../update.json';
+import {
+  checkUpdate,
+  downloadUpdate,
+  switchVersion,
+  switchVersionLater,
+  isFirstTime,
+  isRolledBack,
+  markSuccess,
+} from 'react-native-update';
+import {save} from '../../utils/Storage';
+const {appKey} = _updateConfig[Platform.OS];
+
+console.log('appKey', appKey);
 
 // 获取屏幕的宽度信息
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -47,8 +63,53 @@ const Home = () => {
   useEffect(() => {
     store.requestHomeList();
     store.getCategoryList();
+    // 热更新
+    checkPatch();
+    if (isFirstTime) {
+      markSuccess();
+      // 补丁成功，上报服务器信息
+      // 补丁安装成功率：99.5% ~ 99.7%
+    } else if (isRolledBack) {
+      // 补丁回滚，上报服务器信息
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // 热更新数据
+  const checkPatch = async () => {
+    // 开发模式不检查更新
+    if (__DEV__) {
+      return;
+    }
+    const info: any = await checkUpdate(appKey);
+    const {update, name, description, metaInfo} = info;
+    // 补丁说明部分
+    const metaJson = JSON.parse(metaInfo);
+    save('patchVersion', name);
+    save('patchDescription', description);
+    const {forceUpdate} = metaJson;
+    if (forceUpdate) {
+      // 弹窗提示用户
+    } else {
+      // 不弹窗默默操作
+    }
+    // 下载补丁
+    if (update) {
+      // 下载更新 hash
+      const hash = await downloadUpdate(info, {
+        onDownloadProgress: ({received, total}) => {},
+      });
+      if (hash) {
+        if (forceUpdate) {
+          // 立即重启
+          switchVersion(hash);
+        } else {
+          // 重启后更新
+          switchVersionLater(hash);
+        }
+      }
+    }
+  };
 
   const refreshNewData = () => {
     // 1. 重置页码
