@@ -13,6 +13,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 
 import icon_search from '../../assets/icon_search.png';
 import icon_arrow from '../../assets/icon_arrow.png';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const SearchGoods = () => {
   const inputRef = useRef<TextInput>(null);
@@ -61,7 +62,7 @@ const SearchGoods = () => {
     );
   };
 
-  return <View>{renderTitle()}</View>;
+  return <SafeAreaView>{renderTitle()}</SafeAreaView>;
 };
 
 const styles = StyleSheet.create({

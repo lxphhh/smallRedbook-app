@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   BottomTabBarProps,
   createBottomTabNavigator,
@@ -18,8 +18,18 @@ import {
   ImagePickerResponse,
   launchImageLibrary,
 } from 'react-native-image-picker';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
-const RedBookTabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
+interface RedBookTabBarProps extends BottomTabBarProps {
+  onPushChange: (name: string) => void;
+}
+
+const RedBookTabBar = ({
+  state,
+  descriptors,
+  navigation,
+  onPushChange,
+}: RedBookTabBarProps) => {
   const {routes, index} = state;
 
   const onPublishPress = () => {
@@ -68,6 +78,7 @@ const RedBookTabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
             style={styles.tabItem}
             activeOpacity={0.7}
             onPress={() => {
+              onPushChange(route.name);
               navigation.navigate(route.name);
             }}>
             <Text
@@ -86,53 +97,66 @@ const RedBookTabBar = ({state, descriptors, navigation}: BottomTabBarProps) => {
 };
 
 const MainTab = () => {
+  const [isMine, setIsMine] = useState<boolean>(false);
+  const handleOnChange = (name: string) => {
+    setIsMine(name === 'Mine');
+  };
   return (
-    <View style={styles.root}>
-      <BottomTab.Navigator
-        // eslint-disable-next-line react/no-unstable-nested-components
-        tabBar={(props: BottomTabBarProps) => <RedBookTabBar {...props} />}>
-        <BottomTab.Screen
-          name="Home"
-          component={Home}
-          options={{
-            title: '首页',
-            headerShown: false,
-          }}
-        />
-        <BottomTab.Screen
-          name="Shop"
-          component={Shop}
-          options={{
-            title: '购物',
-            headerShown: false,
-          }}
-        />
-        <BottomTab.Screen
-          name="Publish"
-          component={Shop}
-          options={{
-            title: '发布',
-            headerShown: false,
-          }}
-        />
-        <BottomTab.Screen
-          name="Message"
-          component={Message}
-          options={{
-            title: '消息',
-            headerShown: false,
-          }}
-        />
-        <BottomTab.Screen
-          name="Mine"
-          component={Mine}
-          options={{
-            title: '我',
-            headerShown: false,
-          }}
-        />
-      </BottomTab.Navigator>
-    </View>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: 'white',
+      }}
+      edges={isMine ? ['bottom'] : []}>
+      <View style={styles.root}>
+        <BottomTab.Navigator
+          // eslint-disable-next-line react/no-unstable-nested-components
+          tabBar={(props: BottomTabBarProps) => (
+            <RedBookTabBar {...props} onPushChange={handleOnChange} />
+          )}>
+          <BottomTab.Screen
+            name="Home"
+            component={Home}
+            options={{
+              title: '首页',
+              headerShown: false,
+            }}
+          />
+          <BottomTab.Screen
+            name="Shop"
+            component={Shop}
+            options={{
+              title: '购物',
+              headerShown: false,
+            }}
+          />
+          <BottomTab.Screen
+            name="Publish"
+            component={Shop}
+            options={{
+              title: '发布',
+              headerShown: false,
+            }}
+          />
+          <BottomTab.Screen
+            name="Message"
+            component={Message}
+            options={{
+              title: '消息',
+              headerShown: false,
+            }}
+          />
+          <BottomTab.Screen
+            name="Mine"
+            component={Mine}
+            options={{
+              title: '我',
+              headerShown: false,
+            }}
+          />
+        </BottomTab.Navigator>
+      </View>
+    </SafeAreaView>
   );
 };
 

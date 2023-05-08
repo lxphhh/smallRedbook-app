@@ -48,7 +48,7 @@ const Console = () => {
 
 function App(): JSX.Element {
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={{width: '100%', height: '100%'}}>
       <StatusBar barStyle={'dark-content'} />
       <Console />
       <NavigationContainer>

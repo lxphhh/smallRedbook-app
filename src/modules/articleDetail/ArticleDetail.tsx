@@ -24,6 +24,7 @@ import icon_collection from '../../assets/icon_collection.png';
 import icon_collection_selected from '../../assets/icon_collection_selected.png';
 import icon_comment from '../../assets/icon_comment.png';
 import icon_edit_comment from '../../assets/icon_edit_comment.png';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 type RouteParams = {
   ArticleDetail: {
@@ -83,7 +84,7 @@ const ArticleDetail = () => {
           />
         )}
         <Text style={styles.userNameTxt}>{articleDetail?.userName ?? ''}</Text>
-        <TouchableOpacity activeOpacity={0.9}>
+        <TouchableOpacity style={styles.followBtn} activeOpacity={0.9}>
           <Text style={styles.followTxt}>关注</Text>
         </TouchableOpacity>
         <Image style={styles.shareImg} source={icon_share} />
@@ -396,7 +397,7 @@ const ArticleDetail = () => {
 
   return (
     store?.articleDetail && (
-      <View style={styles.root}>
+      <SafeAreaView style={styles.root}>
         {renderTitle()}
         <ScrollView style={{flex: 1}} showsVerticalScrollIndicator={false}>
           {renderImages()}
@@ -405,7 +406,7 @@ const ArticleDetail = () => {
         </ScrollView>
         {/* 页面底部 */}
         {renderBottom()}
-      </View>
+      </SafeAreaView>
     )
   );
 };
@@ -443,14 +444,18 @@ const styles = StyleSheet.create({
     color: '#333',
     marginLeft: 16,
   },
+  followBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   followTxt: {
-    paddingHorizontal: 16,
     height: 30,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
     borderRadius: 15,
     borderWidth: 1,
     borderColor: '#ff2442',
-    textAlign: 'center',
-    textAlignVertical: 'center',
     fontSize: 12,
     color: '#ff2442',
   },

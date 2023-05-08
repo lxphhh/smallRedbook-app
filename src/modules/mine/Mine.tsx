@@ -33,6 +33,8 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import Heart from '../../components/heart/Heart';
 import SideMenu, {SideModalRef} from './components/SideMenu';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {isPlatformIos} from '../../utils/StringUtil';
 
 const EMPTY_CONFIG = [
   {icon: icon_no_note, tips: '快去发布今日的好心情吧～'},
@@ -43,6 +45,8 @@ const EMPTY_CONFIG = [
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 const Mine = () => {
+  const inset = useSafeAreaInsets();
+
   const store = useLocalStore(() => new MineStore());
 
   const navigation = useNavigation<StackNavigationProp<any>>();
@@ -95,7 +99,13 @@ const Mine = () => {
       },
     });
     return (
-      <View style={styles.titleLayout}>
+      <View
+        style={[
+          styles.titleLayout,
+          {
+            paddingTop: isPlatformIos() ? inset.top + 15 : 0,
+          },
+        ]}>
         <TouchableOpacity
           style={styles.menuButton}
           activeOpacity={0.7}
@@ -137,8 +147,8 @@ const Mine = () => {
       },
       nameTxt: {
         fontSize: 22,
-        color: 'red',
-        // fontWeight: 'bold',
+        color: 'white',
+        fontWeight: 'bold',
       },
       nameLayout: {
         marginLeft: 20,

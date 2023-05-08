@@ -102,7 +102,7 @@ const CategoryModal = forwardRef((props: Props, ref) => {
     return (
       <>
         <View style={styles.row}>
-          <Text style={styles.titleTxt}>我的频道</Text>
+          <Text style={styles.titleTxt}></Text>
           <Text style={styles.subTitleTxt}>点击进入频道</Text>
           <TouchableOpacity
             style={styles.editButton}

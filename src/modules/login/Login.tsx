@@ -12,6 +12,9 @@ import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import Toast from '../../components/widget/Toast';
+import {formatPhone, isPlatformIos, replaceBlank} from '../../utils/StringUtil';
+import UserStore from '../../stores/UserStore';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import icon_logo_main from '../../assets/icon_main_logo.png';
 import icon_unselected from '../../assets/icon_unselected.png';
@@ -25,8 +28,6 @@ import icon_exchange from '../../assets/icon_exchange.png';
 import icon_wx from '../../assets/icon_wx.png';
 import icon_qq from '../../assets/icon_qq.webp';
 import icon_close_modal from '../../assets/icon_close_modal.png';
-import {formatPhone, replaceBlank} from '../../utils/StringUtil';
-import UserStore from '../../stores/UserStore';
 
 // type Props = {};
 
@@ -47,6 +48,8 @@ const Login = () => {
   const handleSelect = () => {
     setCheck(!check);
   };
+
+  const insets = useSafeAreaInsets();
 
   const renderQuickLogin = () => {
     const styles = StyleSheet.create({
@@ -315,13 +318,13 @@ const Login = () => {
     });
 
     return (
-      <View style={styles.root}>
+      <SafeAreaView style={styles.root}>
         <Text style={styles.pwdLogin}>密码登录</Text>
         <Text style={styles.tip}>未注册的手机号登录之后将自动注册</Text>
         {/* 账号输入开始 */}
         <View style={styles.phoneLayout}>
           <Text style={styles.pre86}> +86</Text>
-          <Image style={styles.triangle} source={icon_triangle} />
+          <Image style={[styles.triangle]} source={icon_triangle} />
           <TextInput
             style={styles.phoneInput}
             placeholder="请输入手机号码"
@@ -430,7 +433,12 @@ const Login = () => {
         </View>
         {/* 返回快速登录 */}
         <TouchableOpacity
-          style={styles.closeButton}
+          style={[
+            styles.closeButton,
+            {
+              top: isPlatformIos() ? insets.top : 24,
+            },
+          ]}
           onPress={() => {
             LayoutAnimation.easeInEaseOut();
             setLoginType('quick');
@@ -438,7 +446,7 @@ const Login = () => {
           activeOpacity={0.7}>
           <Image style={styles.closeImg} source={icon_close_modal} />
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
     );
   };
 
